@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ButtonStyles, InputStyles } from "../../common/Styles/Styles";
 import { Link, useNavigate } from "react-router-dom";
+import ErrorModal from "../../common/error/ErrorModal";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ const Login = (props) => {
     number: "",
     password: "",
   });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({ error: false, msg: "" });
   const dataHandler = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -22,17 +23,25 @@ const Login = (props) => {
       body: JSON.stringify(formData),
     });
 
-    await response.json();
+    const data = await response.json();
+    console.log(data);
+    console.log(response);
     if (response.ok) {
-      setError(false);
+      setError((prev) => ({ ...prev, error: false, msg: "" }));
       navigate("/home");
     } else {
-      setError(true);
+      setError((prev) => ({ ...prev, error: true, msg: data.message }));
     }
+  };
+
+  const errorCloseHandler = () => {
+    setError((prev) => ({ ...prev, error: false, msg: "" }));
   };
   return (
     <>
-      {error && <p>Unautorized</p>}
+      {error.error && (
+        <ErrorModal message={error.msg} onClose={errorCloseHandler} />
+      )}
       <form onSubmit={submitHandler}>
         <label>Enter Mobile Number</label>
         <InputStyles onChange={dataHandler} name="number" />
