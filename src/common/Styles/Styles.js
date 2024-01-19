@@ -40,3 +40,12 @@ export const TitleElemnt = styled.span`
 export const FooterPara = styled.p`
   color: white;
 `;
+
+export const DivErrorModal = styled.div`
+  background-color: #ff004d;
+  padding: 5px 30px;
+  margin: 5px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;

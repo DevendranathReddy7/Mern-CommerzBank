@@ -24,7 +24,7 @@ export default Navbar;
 
 export const Footer = () => {
   return (
-    <footer>
+    <footer style={{ flexShrink: 0 }}>
       <DivNav>
         <FooterPara>©️ 2024 Commerz Bank. All rights reserved</FooterPara>
       </DivNav>
