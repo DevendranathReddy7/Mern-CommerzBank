@@ -1,17 +1,19 @@
 const initialState = {
+  currentUser: "",
   name: "",
-  mobileNumber: "",
-  password: "",
 };
 
 const LOGIN = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
-      console.log(action.payload);
-      return "";
+      return {
+        ...state,
+        currentUser: action.payload.id,
+        name: action.payload.name,
+      };
 
     default:
-      return "";
+      return state;
   }
 };
 

@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { ButtonStyles, InputStyles } from "../../common/Styles/Styles";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorModal from "../../common/error/ErrorModal";
+import { login } from "../../storeSetup/actions/loginAction";
+import { useDispatch } from "react-redux";
 
 const Login = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     number: "",
     password: "",
@@ -24,8 +27,7 @@ const Login = (props) => {
     });
 
     const data = await response.json();
-    console.log(data);
-    console.log(response);
+    dispatch(login(data.user));
     if (response.ok) {
       setError((prev) => ({ ...prev, error: false, msg: "" }));
       navigate("/home");

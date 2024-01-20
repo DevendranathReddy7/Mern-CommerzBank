@@ -7,9 +7,7 @@ const HomePage = (props) => {
   return (
     <div>
       <Navbar />
-      <DivNotifications>
-        <h3>Welcome Back Dev!</h3>
-      </DivNotifications>
+      <DivNotifications></DivNotifications>
       <AccountsList />
       <Footer />
     </div>
