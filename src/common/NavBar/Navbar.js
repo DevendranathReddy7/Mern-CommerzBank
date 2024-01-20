@@ -5,13 +5,18 @@ import {
   FooterPara,
   TitleElemnt,
 } from "../Styles/Styles";
+import { useSelector } from "react-redux";
 const Navbar = (props) => {
+  const userName = useSelector((state) => state.login.name);
   return (
     <DivNav>
       <div style={{ display: "inline-flex" }}>
         <SiCommerzbank size={40} color="#0fbfeb" />
         <div>
           <TitleElemnt>Commerz</TitleElemnt>
+        </div>
+        <div>
+          <TitleElemnt>{userName}</TitleElemnt>
         </div>
       </div>
       <div>
