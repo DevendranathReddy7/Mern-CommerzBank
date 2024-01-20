@@ -15,7 +15,7 @@ const Navbar = (props) => {
         </div>
       </div>
       <div>
-        <ButtonStyles>Logout</ButtonStyles>
+        <ButtonStyles>🔒 Logout</ButtonStyles>
       </div>
     </DivNav>
   );
