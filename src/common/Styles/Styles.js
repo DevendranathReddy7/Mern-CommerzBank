@@ -62,14 +62,19 @@ export const NavButtonStyle = styled.button`
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 `;
 
-//SideBarDiv
-
-export const DivSideBar = styled.div`
-  width: 25%;
+//SideBarDivContainer
+export const SidebarContainer = styled.div`
   background-color: #eef5ff;
-  height: 440px;
+  height: 80vh;
+  width: 25%;
   margin: -10px 0px 0px 20px;
-  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+`;
+
+// DivSideBar
+export const DivSideBar = styled.div`
   display: flex;
   flex-direction: column;
   align-content: flex-start;
@@ -79,12 +84,12 @@ export const DivSideBar = styled.div`
 
 export const PaymentButtonStyle = styled.button`
   display: flex;
-  align-items: "flex-end";
+  align-items: "flex-start";
   background-color: #12141c;
   border-style: none;
   box-shadow: 10px 10px 20px #888888;
   color: #0fbfeb;
-  margin: 5% 15%;
+  margin: 5% 15% 5% 15%;
   padding: 5%;
   font-weight: bold;
   border-radius: 3px;

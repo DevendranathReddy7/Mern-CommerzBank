@@ -1,37 +1,27 @@
 import React from "react";
-import { DivSideBar, PaymentButtonStyle } from "../Styles/Styles";
+import {
+  DivSideBar,
+  PaymentButtonStyle,
+  SidebarContainer,
+} from "../Styles/Styles";
 import { Link } from "react-router-dom";
 
-const Sidebar = (props) => {
+const Sidebar = ({ to }) => {
   return (
-    <>
-      <DivSideBar>
-        <PaymentButtonStyle>
-          <Link
-            to="/payments/funds-transfer"
-            style={{ textDecoration: "none", color: "#0fbfeb" }}
-          >
-            Funds Transfer
-          </Link>
-        </PaymentButtonStyle>
-        <PaymentButtonStyle>
-          <Link
-            to="/payments/bill-payment"
-            style={{ textDecoration: "none", color: "#0fbfeb" }}
-          >
-            Bill Payments
-          </Link>
-        </PaymentButtonStyle>
-        <PaymentButtonStyle>
-          <Link
-            to="/payments/pay-any-one"
-            style={{ textDecoration: "none", color: "#0fbfeb" }}
-          >
-            Pay Any One
-          </Link>
-        </PaymentButtonStyle>
-      </DivSideBar>
-    </>
+    <SidebarContainer>
+      {to?.map((item, index) => (
+        <DivSideBar>
+          <PaymentButtonStyle key={index}>
+            <Link
+              to={item.path}
+              style={{ textDecoration: "none", color: "#0fbfeb" }}
+            >
+              {item.name}
+            </Link>
+          </PaymentButtonStyle>
+        </DivSideBar>
+      ))}
+    </SidebarContainer>
   );
 };
 export default Sidebar;
