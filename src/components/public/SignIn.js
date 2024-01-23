@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { ButtonStyles, InputStyles } from "../../common/Styles/Styles";
 import { Link, useNavigate } from "react-router-dom";
+import ErrorModal from "../../common/error/ErrorModal";
 
 const SignIn = (props) => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const SignIn = (props) => {
     password: "",
   });
   const [mandatoryFieldCheck, setMandatoryFieldCheck] = useState({});
+  const [error, setError] = useState({ status: false, msg: "" });
 
   const dataHandler = (e) => {
     const { name, value } = e.target;
@@ -21,13 +23,14 @@ const SignIn = (props) => {
     if (
       formData.name.trim() === "" ||
       formData.number.trim() === "" ||
-      formData.password.trim() === ""
+      formData.password.trim().length < 6
     ) {
       setMandatoryFieldCheck(true);
     } else {
       setMandatoryFieldCheck(false);
     }
   }, [formData.name, formData.number, formData.password]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -38,22 +41,35 @@ const SignIn = (props) => {
     });
     //in future generate a random number for each signin
 
-    await response.json();
+    const data = await response.json();
+
     if (response.ok) {
+      setError({ status: false, msg: "" });
       navigate("/home");
     } else {
-      console.log("in err");
+      setError((prev) => ({ ...prev, status: true, msg: data.message }));
     }
+  };
+
+  const errorCloseHandler = () => {
+    setError((prev) => ({ ...prev, status: false, msg: "" }));
   };
 
   return (
     <form onSubmit={submitHandler}>
+      {error.status && (
+        <ErrorModal message={error.msg} onClose={errorCloseHandler} />
+      )}
       <label>Enter Name</label>
       <InputStyles onChange={dataHandler} name="name" />
       <label>Enter Mobile Number</label>
       <InputStyles onChange={dataHandler} name="number" />
       <label>Enter Password</label>
-      <InputStyles onChange={dataHandler} name="password" />
+      <InputStyles
+        onChange={dataHandler}
+        name="password"
+        placeholder="Enter atleast 6 chars"
+      />
       <ButtonStyles type="submit" disabled={mandatoryFieldCheck}>
         Create an Account
       </ButtonStyles>

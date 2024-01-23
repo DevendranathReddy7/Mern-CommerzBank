@@ -27,8 +27,9 @@ const Login = (props) => {
     });
 
     const data = await response.json();
-    dispatch(login(data.user));
+
     if (response.ok) {
+      dispatch(login(data.user));
       setError((prev) => ({ ...prev, error: false, msg: "" }));
       navigate("/home");
     } else {
