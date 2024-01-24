@@ -9,8 +9,17 @@ import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DivNotifications } from "../../pages/private/HomePage/HomePageStyles";
 import NavButtons from "../Buttons/NavButtons";
-const Navbar = (props) => {
-  const userName = useSelector((state) => state.login.name);
+import { useCallback } from "react";
+const Navbar = () => {
+  const selectLoginInfo = useCallback(
+    (state) => ({
+      userName: state.login.name,
+      currentUser: state.login.currentUser,
+    }),
+    []
+  );
+
+  const { userName, currentUser } = useSelector(selectLoginInfo);
   const navigate = useNavigate();
   const pathName = useLocation().pathname;
   return (
@@ -26,7 +35,14 @@ const Navbar = (props) => {
           </div>
         </div>
         <div>
-          <ButtonStyles>🔒 Logout</ButtonStyles>
+          <ButtonStyles
+            login
+            onClick={
+              !currentUser ? () => navigate("/login") : () => navigate("/")
+            }
+          >
+            {currentUser ? "🔒 Logout" : "🔒 Login"}
+          </ButtonStyles>
         </div>
       </DivNav>
       {pathName === "/home" ? (

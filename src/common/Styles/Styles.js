@@ -3,7 +3,7 @@ import styled from "styled-components";
 //input styles
 export const InputStyles = styled.input`
   display: block;
-  width: 100%;
+  width: 21rem;
   height: 30px;
   margin-bottom: 20px;
 `;
@@ -11,7 +11,7 @@ export const InputStyles = styled.input`
 //Button Styles
 export const ButtonStyles = styled.button`
   display: block;
-  width: 103%;
+  width: ${(props) => (props.login ? "103%" : "21.3rem")};
   height: 35px;
   background-color: #0fbfeb;
   border-style: none;
@@ -43,18 +43,20 @@ export const FooterPara = styled.p`
 
 export const DivErrorModal = styled.div`
   background-color: #ff004d;
+  width: 18rem;
   padding: 5px 30px;
   margin: 5px 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 3px;
 `;
 
 export const NavButtonStyle = styled.button`
   background-color: #12141c;
   border-style: none;
   color: #0fbfeb;
-  margin: 20px;
+  margin: 10px 10px 20px 10px;
   padding: 10px;
   font-weight: bold;
   border-radius: 3px;
@@ -67,7 +69,7 @@ export const SidebarContainer = styled.div`
   background-color: #eef5ff;
   height: 80vh;
   width: 25%;
-  margin: -10px 0px 0px 20px;
+  margin: -10px 0px 0px 10px;
   display: flex;
   flex-direction: column;
   align-content: flex-start;
