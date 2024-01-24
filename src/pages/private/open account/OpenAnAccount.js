@@ -12,8 +12,9 @@ import { MdOutlineDownloadDone } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../../common/modal/Modal";
+import Loader from "../../../common/loading/Loader";
 
-const OpenAnAccount = (props) => {
+const OpenAnAccount = () => {
   const currentUser = useSelector((state) => state.login.currentUser);
   const navigate = useNavigate();
   const state = {
@@ -26,6 +27,7 @@ const OpenAnAccount = (props) => {
   const [success, setSuccess] = useState(false);
   const [Balerror, setBalError] = useState(false);
   const [Accerror, setAccError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const changeHandle = (e) => {
     if (e.target.value % 100 === 0 && e.target.value > 0) {
@@ -58,6 +60,8 @@ const OpenAnAccount = (props) => {
     if (formData.accountName === "") {
       return setAccError(true);
     }
+
+    setIsLoading(true);
     const responseData = await fetch(
       "http://localhost:5000/accounts/open-an-account",
       {
@@ -67,22 +71,27 @@ const OpenAnAccount = (props) => {
           accountName: formData.accountName,
           accountNumber: formData.accountNumber,
           balance: formData.balance,
-          owner: formData.currentUser,
+          owner: formData.owner,
         }),
       }
     );
     await responseData.json();
-
     if (responseData.ok) {
+      setIsLoading(false);
       setSuccess((prev) => true);
-
-      //navigate("/home");
     }
   };
   return (
-    <>
+    <div style={{ marginBottom: "20%" }}>
       <Navbar />
       <form onSubmit={submitHandler}>
+        {!currentUser && (
+          <Label>
+            This is Unauthorised action.Please login to Commerz first! by
+            clicking on Login button.
+          </Label>
+        )}
+        {isLoading && <Loader message="Creating your account" />}
         {success && (
           <Modal modalOpen={success}>
             <MdOutlineDownloadDone size={"30%"} color="green" />
@@ -111,19 +120,21 @@ const OpenAnAccount = (props) => {
         <Label err={Balerror}>
           Note: you have to depost in 100 multiples only.
         </Label>
-        <Input type="hidden" value={currentUser} />
+        {/* <Input value={currentUser} type="hidden" /> */}
 
         <ButtonsDiv>
           <CreateButtonStyles cancel type="button" onClick={cancelHandle}>
             Cancel
           </CreateButtonStyles>
-          <CreateButtonStyles disabled={Balerror || Accerror}>
+          <CreateButtonStyles
+            disabled={Balerror || Accerror || isLoading || !currentUser}
+          >
             Create Account
           </CreateButtonStyles>
         </ButtonsDiv>
       </form>
       <Footer />
-    </>
+    </div>
   );
 };
 export default OpenAnAccount;

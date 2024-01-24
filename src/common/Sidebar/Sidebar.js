@@ -7,9 +7,9 @@ import {
 import { Link } from "react-router-dom";
 const Payment = [
   { path: "/payments/funds-transfer", name: "Funds Transfer" },
-  { path: "/payments/bill-payments", name: "Bill Payments" },
-  { path: "/payments/pay-any-one", name: "Pay Any One" },
-  { path: "/payments-history", name: "Payment History" },
+  { path: "/payments/bill-payment", name: "Bill Payments" },
+  { path: "/payments/pay-anyone", name: "Pay Any One" },
+  { path: "/payments/history", name: "Payment History" },
 ];
 const Settings = [
   { path: "/settings/manage-billers", name: "Manage Billers" },
