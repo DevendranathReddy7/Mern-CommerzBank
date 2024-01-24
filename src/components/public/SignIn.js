@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { ButtonStyles, InputStyles } from "../../common/Styles/Styles";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorModal from "../../common/error/ErrorModal";
+import { useDispatch } from "react-redux";
+import { login } from "../../storeSetup/actions/loginAction";
 
 const SignIn = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     number: "",
@@ -45,6 +48,7 @@ const SignIn = (props) => {
 
     if (response.ok) {
       setError({ status: false, msg: "" });
+      dispatch(login(data.user));
       navigate("/home");
     } else {
       setError((prev) => ({ ...prev, status: true, msg: data.message }));
