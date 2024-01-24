@@ -41,7 +41,7 @@ const AccountsList = () => {
                 on
               </p>
               <Link to="/open-new-account" style={{ textDecoration: "none" }}>
-                <ButtonStyles>Open an account</ButtonStyles>
+                <ButtonStyles login>Open an account</ButtonStyles>
               </Link>
             </span>
           </NoAccountlistStyle>
