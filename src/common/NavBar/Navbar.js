@@ -2,6 +2,7 @@ import { SiCommerzbank } from "react-icons/si";
 import {
   ButtonStyles,
   DivNav,
+  FooterContainer,
   FooterPara,
   TitleElemnt,
 } from "../Styles/Styles";
@@ -65,17 +66,10 @@ export default Navbar;
 
 export const Footer = () => {
   return (
-    <footer
-      style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-      }}
-    >
+    <FooterContainer>
       <DivNav>
         <FooterPara>©️ 2024 Commerz Bank. All rights reserved</FooterPara>
       </DivNav>
-    </footer>
+    </FooterContainer>
   );
 };
