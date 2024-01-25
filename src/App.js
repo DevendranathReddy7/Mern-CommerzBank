@@ -12,7 +12,7 @@ import SettingsHomePage from "./pages/private/settings/SettingsHomePage";
 import OpenAnAccount from "./pages/private/open account/OpenAnAccount";
 import FundsTransferPage from "./pages/private/payments/FundsTransferPage";
 import FirstPage from "./pages/public/FirstPage";
-import BillPayments from "./components/private/payments/BillPayments";
+import BillPaymentsPage from "./pages/private/payments/BillPaymentsPage";
 
 const App = () => {
   // useEffect(() => {
@@ -40,15 +40,19 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/payments" element={<PaymentsHomePage />}>
-            <Route path="funds-transfer" element={<FundsTransferPage />} />
-            <Route path="bill-payment" element={<BillPayments />} />
-            <Route path="pay-anyone" element={<BillPayments />} />
-            <Route path="history" element={<BillPayments />} />
-          </Route>
+          <Route path="/payments" element={<PaymentsHomePage />}></Route>
+
+          <Route
+            path="/payments/funds-transfer"
+            element={<FundsTransferPage />}
+          />
+          <Route path="/payments/bill-payment" element={<BillPaymentsPage />} />
+          <Route path="/payments/pay-anyone" element={""} />
+          <Route path="/payments/history" element={""} />
+
           <Route path="/settings" element={<SettingsHomePage />}>
             <Route path="manage-billers" element={<FundsTransferPage />} />
-            <Route path="manage-payees" element={<BillPayments />} />
+            <Route path="manage-payees" element={""} />
           </Route>
           <Route path="/open-new-account" element={<OpenAnAccount />} />
         </Routes>

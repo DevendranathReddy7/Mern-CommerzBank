@@ -30,6 +30,13 @@ export const DivNav = styled.div`
   background-color: #12141c;
 `;
 
+export const FooterContainer = styled.footer`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+`;
+
 export const TitleElemnt = styled.span`
   font-weight: bold;
   color: #0fbfeb;
