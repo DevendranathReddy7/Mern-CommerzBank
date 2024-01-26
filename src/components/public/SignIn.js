@@ -79,7 +79,10 @@ const SignIn = (props) => {
       </ButtonStyles>
       <hr />
       <p>
-        Existing Customer? <Link to="/login">Login</Link>
+        Existing Customer?
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <ButtonStyles>Login</ButtonStyles>
+        </Link>
       </p>
     </form>
   );

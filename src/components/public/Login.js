@@ -53,7 +53,10 @@ const Login = (props) => {
         <ButtonStyles>🔒Log-in</ButtonStyles>
         <hr />
         <p>
-          New to Commerz? <Link to="/signin">Open an account</Link>
+          New to Commerz?{" "}
+          <Link to="/signin" style={{ textDecoration: "none" }}>
+            <ButtonStyles>Open an account</ButtonStyles>
+          </Link>
         </p>
       </form>
     </>

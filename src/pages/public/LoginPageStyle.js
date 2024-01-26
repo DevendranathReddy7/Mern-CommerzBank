@@ -7,10 +7,15 @@ export const DivStyles = styled.div`
   justify-content: center;
   padding: 30px 10px 20px 10px;
   margin-top: 20px;
+  background-color: #12141c;
+  height: auto;
+  color: white;
 `;
 
 export const Div1Styles = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 50px 30px;
   margin-top: 20px;
 `;
