@@ -1,4 +1,5 @@
 import { SiCommerzbank } from "react-icons/si";
+import { GoHome } from "react-icons/go";
 import {
   ButtonStyles,
   DivNav,
@@ -48,12 +49,18 @@ const Navbar = () => {
       </DivNav>
       {pathName === "/home" ? (
         <DivNotifications>
+          <NavButtons to="/home">
+            <GoHome />
+          </NavButtons>
           <NavButtons to="/payments">Payments</NavButtons>
           <NavButtons to="/settings">Settings</NavButtons>
           <NavButtons to="/open-new-account">Open new account</NavButtons>
         </DivNotifications>
       ) : (
         <>
+          <NavButtons to="/home">
+            <GoHome />
+          </NavButtons>
           <NavButtons to="/payments">Payments</NavButtons>
           <NavButtons to="/settings">Settings</NavButtons>
           <NavButtons to="/open-new-account">Open new account</NavButtons>
