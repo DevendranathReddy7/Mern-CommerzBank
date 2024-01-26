@@ -1,17 +1,19 @@
 import React from "react";
+import FundsTransfer from "../../../components/private/payments/FundsTransfer";
 import Navbar, { Footer } from "../../../common/NavBar/Navbar";
-import Sidebar from "../../../common/Sidebar/Sidebar";
 import { SidebySideDiv } from "../../../common/PaymentScreen/PaymentScreenStyles";
+import Sidebar from "../../../common/Sidebar/Sidebar";
 
-const PaymentsHomePage = (props) => {
+const FundsTransferPage = (props) => {
   return (
-    <div>
+    <>
       <Navbar title="Payments" />
       <SidebySideDiv>
         <Sidebar to="Payment" />
+        <FundsTransfer />
       </SidebySideDiv>
       <Footer />
-    </div>
+    </>
   );
 };
-export default PaymentsHomePage;
+export default FundsTransferPage;
