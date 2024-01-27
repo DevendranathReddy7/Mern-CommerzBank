@@ -6,6 +6,11 @@ export const InputStyles = styled.input`
   width: 21rem;
   height: 30px;
   margin-bottom: 20px;
+  &:focus {
+    border-color: ${(props) => (props.err === true ? "red" : "black")};
+    border-radius: 3px;
+    outline: none;
+  }
 `;
 
 //Button Styles
