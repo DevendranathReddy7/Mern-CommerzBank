@@ -33,3 +33,53 @@ export const PaymentsButtonsDiv = styled.div`
   margin-top: 2%;
   gap: 10px;
 `;
+
+export const AccountList = styled.li`
+  width: 81%;
+  height: 70px;
+  border-style: solid;
+  border-color: black;
+  margin-left: 9%;
+  margin-bottom: 1%;
+  border-radius: 3px;
+  list-style-type: none;
+`;
+
+export const AccountsModalDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  background-color: #12141c;
+  border-radius: 3px;
+  border-style: none;
+  color: #0fbfeb;
+  margin: 10% 5% 10% 36%;
+  padding: 1% 6%;
+  font-weight: bold;
+  border-radius: 3px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+`;
+
+export const AccountListDropdown = styled.li`
+  width: 81%;
+  height: 70px;
+  display: flex;
+  border-style: solid;
+  border-color: black;
+  margin-left: 9%;
+  margin-top: -1%;
+  margin-bottom: 2%;
+  border-radius: 3px;
+  list-style-type: none;
+  background-color: #e8f9fe;
+  border-color: #e8f9fe;
+
+  align-items: center;
+  justify-content: space-between;
+`;
