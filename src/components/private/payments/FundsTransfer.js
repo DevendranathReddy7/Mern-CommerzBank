@@ -1,28 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  AccountList,
   InputSelectAccount,
   PaymentButtons,
   PaymentsButtonsDiv,
 } from "../../../common/PaymentScreen/PaymentScreenStyles";
 import { useNavigate } from "react-router-dom";
+import FromAccountSelector from "./common/FromAccountSelector";
 
 const FundsTransfer = () => {
   const navigate = useNavigate();
+  const [isFromClicked, setIsFromCLicked] = useState(false);
   const cancelHandle = () => {
     navigate("/payments");
   };
 
-  const clickHandler = () => {
-    console.log("i am clicked");
+  const accountClickHandler = () => {
+    setIsFromCLicked((prev) => !prev);
   };
   return (
     <>
       <div style={{ flex: 1 }}>
-        <InputSelectAccount placeholder="Select from account" />
-        <InputSelectAccount
-          placeholder="Select to account"
-          onClick={clickHandler}
+        <AccountList
+          placeholder="Select from account"
+          onClick={accountClickHandler}
         />
+        {isFromClicked && <FromAccountSelector />}
+        <InputSelectAccount placeholder="Select to account" />
         <InputSelectAccount placeholder="Message" />
         <InputSelectAccount placeholder="Amount" />
         <PaymentsButtonsDiv>

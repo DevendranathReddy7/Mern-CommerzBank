@@ -5,16 +5,19 @@ import {
   NoAccountlistStyle,
 } from "./AccountsListStyles";
 import AccountItem from "./AccountItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { VscError } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { ButtonStyles } from "../../../common/Styles/Styles";
 import Loader from "../../../common/loading/Loader";
+import { SaveAccounts } from "../../../storeSetup/actions/accountsAction";
 
 const AccountsList = () => {
-  const [accounts, setAccounts] = useState();
+  //const [accounts, setAccounts] = useState();
   const currentUserId = useSelector((state) => state.login.currentUser);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const accounts = useSelector((state) => state.accounts.accounts);
   useEffect(() => {
     const getAccounts = async () => {
       setIsLoading(true);
@@ -22,11 +25,12 @@ const AccountsList = () => {
         `http://localhost:5000/accounts/${currentUserId}`
       );
       const response = await responseData.json();
-      setAccounts(response.accounts);
+      dispatch(SaveAccounts({ accounts: response.accounts, currentUserId }));
+      //setAccounts(response.accounts);
       setIsLoading(false);
     };
     getAccounts();
-  }, [currentUserId]);
+  }, [currentUserId, dispatch]);
 
   return (
     <DivAccountsList>
