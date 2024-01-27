@@ -13,6 +13,7 @@ const Login = (props) => {
     password: "",
   });
   const [error, setError] = useState({ error: false, msg: "" });
+  const [manadatoryFiledCheck, setMandatoryFiledCheck] = useState(false);
   const dataHandler = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -20,6 +21,21 @@ const Login = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (formData.number.trim() === "") {
+      const elm = document.getElementById("mobile");
+      setMandatoryFiledCheck(true);
+      elm.focus();
+      return;
+    }
+
+    if (formData.password.trim() === "") {
+      const elm = document.getElementById("password");
+      setMandatoryFiledCheck(true);
+      elm.focus();
+      return;
+    }
+    setMandatoryFiledCheck(false);
     const response = await fetch("http://localhost:5000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,9 +63,20 @@ const Login = (props) => {
       )}
       <form onSubmit={submitHandler}>
         <label>Enter Mobile Number</label>
-        <InputStyles onChange={dataHandler} name="number" />
+        <InputStyles
+          onChange={dataHandler}
+          name="number"
+          id="mobile"
+          err={manadatoryFiledCheck}
+        />
         <label>Enter Password</label>
-        <InputStyles type="password" onChange={dataHandler} name="password" />
+        <InputStyles
+          type="password"
+          onChange={dataHandler}
+          name="password"
+          id="password"
+          err={manadatoryFiledCheck}
+        />
         <ButtonStyles>🔒Log-in</ButtonStyles>
         <hr />
         <p>
