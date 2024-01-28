@@ -13,6 +13,8 @@ import OpenAnAccount from "./pages/private/open account/OpenAnAccount";
 import FundsTransferPage from "./pages/private/payments/FundsTransferPage";
 import FirstPage from "./pages/public/FirstPage";
 import BillPaymentsPage from "./pages/private/payments/BillPaymentsPage";
+import PaymentReviewPage from "./pages/private/payments/PaymentReviewPage";
+import PaymentsSuccess from "./components/private/payments/common/PaymentsSuccess";
 
 const App = () => {
   // useEffect(() => {
@@ -46,6 +48,11 @@ const App = () => {
             path="/payments/funds-transfer"
             element={<FundsTransferPage />}
           />
+          <Route
+            path="payments/funds-transfer-review"
+            element={<PaymentReviewPage />}
+          />
+          <Route path="payments/success" element={<PaymentsSuccess />} />
           <Route path="/payments/bill-payment" element={<BillPaymentsPage />} />
           <Route path="/payments/pay-anyone" element={""} />
           <Route path="/payments/history" element={""} />
