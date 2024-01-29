@@ -83,3 +83,15 @@ export const AccountListDropdown = styled.li`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const PaymentStatus = styled.h4`
+  background-color: ${(props) =>
+    props.pmntStatus === "pass" ? "green" : "red"};
+  padding: 10px;
+  margin: 0% 0 -10% 1%;
+  border-radius: 3px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2%;
+`;
