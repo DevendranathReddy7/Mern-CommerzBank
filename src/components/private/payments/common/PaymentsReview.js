@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ButtonStyles } from "../../../../common/Styles/Styles";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loader from "../../../../common/loading/Loader";
 
 const PaymentsReview = () => {
   const pmtDetails = useSelector((state) => state.pmnts);
   const currentUser = useSelector((state) => state.login);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const path = useLocation().pathname;
   let endpoint = "";
-  console.log(currentUser);
+
   switch (path) {
-    case "/payments/funds-transfer-review":
+    case "/payments/self-transfer-review":
       endpoint = "funds-transfer";
       break;
     default:
@@ -19,70 +21,90 @@ const PaymentsReview = () => {
   }
 
   const continueHandler = async () => {
-    const response = await fetch(`http://localhost:5000/payments/${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fromAccount: pmtDetails.fromAccount.accountNumber,
-        toAccount: pmtDetails.toAccount.accountNumber,
-        amount: pmtDetails.amount,
-        message: pmtDetails.message,
-        owner: currentUser.currentUser,
-      }),
-    });
-    console.log(response);
-    navigate("/payments/success");
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `http://localhost:5000/payments/${endpoint}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fromAccount: pmtDetails.fromAccount.accountNumber,
+            toAccount: pmtDetails.toAccount.accountNumber,
+            amount: pmtDetails.amount,
+            message: pmtDetails.message,
+            owner: currentUser.currentUser,
+          }),
+        }
+      );
+      setIsLoading(false);
+      if (response.ok) {
+        navigate("/payments/status", {
+          state: { status: "pass", message: "Payment Successful!" },
+        });
+      }
+    } catch (err) {
+      navigate("/payments/status", {
+        state: { status: "fail", message: "Payment Failed!" },
+      });
+    }
   };
   return (
     <>
-      <table>
-        <tbody>
-          <tr style={{ fontWeight: "bold" }}>
-            <th> Payment Details</th>
-            <th>From</th>
-            <th>To</th>
-          </tr>
-          <tr>
-            <th>Account Name</th>
-            <td>{pmtDetails?.fromAccount?.accountName}</td>
-            <td>{pmtDetails?.toAccount?.accountName}</td>
-          </tr>
-          <tr>
-            <th>Account Number</th>
-            <td>{pmtDetails?.fromAccount?.accountNumber}</td>
-            <td>{pmtDetails?.toAccount?.accountNumber}</td>
-          </tr>
-          <tr>
-            <th>Amount</th>
-            <td>{pmtDetails?.amount}</td>
-          </tr>
-          <tr>
-            <th>Message</th>
-            <td>{pmtDetails?.message || "Not provided"}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "flex-end",
-          margin: "-8px 10px 50px 10%",
-          gap: "10px",
-          width: "20%",
-        }}
-      >
-        <ButtonStyles
-          style={{
-            backgroundColor: "transparent",
-            borderStyle: "solid",
-          }}
-          onClick={() => navigate(-1)}
-        >
-          Cancel
-        </ButtonStyles>
-        <ButtonStyles onClick={continueHandler}>Continue</ButtonStyles>
-      </div>
+      {isLoading ? (
+        <Loader message="Posting your Payment" />
+      ) : (
+        <>
+          <table>
+            <tbody>
+              <tr style={{ fontWeight: "bold" }}>
+                <th> Payment Details</th>
+                <th>From</th>
+                <th>To</th>
+              </tr>
+              <tr>
+                <th>Account Name</th>
+                <td>{pmtDetails?.fromAccount?.accountName}</td>
+                <td>{pmtDetails?.toAccount?.accountName}</td>
+              </tr>
+              <tr>
+                <th>Account Number</th>
+                <td>{pmtDetails?.fromAccount?.accountNumber}</td>
+                <td>{pmtDetails?.toAccount?.accountNumber}</td>
+              </tr>
+              <tr>
+                <th>Amount</th>
+                <td>{pmtDetails?.amount}</td>
+              </tr>
+              <tr>
+                <th>Message</th>
+                <td>{pmtDetails?.message || "Not provided"}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
+              margin: "-8px 10px 50px 1%",
+              gap: "10px",
+              width: "20%",
+            }}
+          >
+            <ButtonStyles
+              style={{
+                backgroundColor: "transparent",
+                borderStyle: "solid",
+              }}
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </ButtonStyles>
+            <ButtonStyles onClick={continueHandler}>Continue</ButtonStyles>
+          </div>
+        </>
+      )}
     </>
   );
 };

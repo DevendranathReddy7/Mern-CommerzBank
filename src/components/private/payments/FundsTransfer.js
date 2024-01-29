@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   InputSelectAccount,
   PaymentButtons,
@@ -21,19 +21,34 @@ const FundsTransfer = () => {
   const [selectedToAccount, setSelectedToAccount] = useState();
 
   const [message, setMessage] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState({ amount: 0 });
 
   const [error, setError] = useState(false);
+  const [accountsError, setaccountsError] = useState(false);
+
+  useEffect(() => {
+    dispatch(
+      payment({
+        selectedFromAccount,
+        selectedToAccount,
+        message,
+        amount: amount.amount,
+      })
+    );
+  }, [dispatch, amount, message, selectedToAccount, selectedFromAccount]);
+
   const accountClickHandler = () => {
     setIsFromCLicked((prev) => !prev);
   };
 
   const selectedAccount = (acc) => {
     setSelectedFromAccount(acc);
+    setaccountsError(false);
   };
 
   const toAccount = (acc) => {
     setSelectedToAccount(acc);
+    setaccountsError(false);
   };
 
   const clickedtoAccount = () => {
@@ -45,7 +60,7 @@ const FundsTransfer = () => {
   };
 
   const amountHandler = (e) => {
-    setAmount(e.target.value);
+    setAmount((prev) => ({ ...prev, amount: e.target.value }));
   };
 
   const cancelHandle = () => {
@@ -54,20 +69,25 @@ const FundsTransfer = () => {
 
   const continueHandle = (e) => {
     e.preventDefault();
-    dispatch(
-      payment({ selectedFromAccount, selectedToAccount, message, amount })
-    );
+    // dispatch(
+    //   payment({ selectedFromAccount, selectedToAccount, message, amount })
+    // );
 
-    const amnt = pmntDetails.amount;
+    const amnt = pmntDetails?.amount;
     const availableBalance = pmntDetails?.fromAccount.balance;
+    const frmAccount = pmntDetails?.fromAccount?.accountNumber;
+    const to_account = pmntDetails?.toAccount?.accountNumber;
 
-    if (amnt > availableBalance) {
+    if (frmAccount === to_account) {
+      setaccountsError(true);
+      return;
+    } else if (parseInt(amnt) > parseInt(availableBalance)) {
       setError(true);
       return;
     }
-
-    navigate("/payments/funds-transfer-review");
     setError(false);
+    setaccountsError(false);
+    navigate("/payments/self-transfer-review");
   };
 
   return (
@@ -86,7 +106,9 @@ const FundsTransfer = () => {
         {selectedFromAccount && (
           <EachAccount
             acc={selectedFromAccount}
-            onClick={() => selectedAccount()}
+            onClick={() => {
+              accountClickHandler(true);
+            }}
           />
         )}
 
@@ -103,10 +125,22 @@ const FundsTransfer = () => {
         {selectedToAccount && (
           <EachAccount
             acc={selectedToAccount}
-            onClick={() => selectedAccount()}
+            onClick={() => clickedtoAccount(true)}
           />
         )}
-
+        {accountsError && (
+          <p
+            style={{
+              color: "red",
+              fontFamily: "revert-layer",
+              marginLeft: "9%",
+              marginTop: "-10px",
+            }}
+          >
+            you've selected same account in both From & To..please select
+            different accounts
+          </p>
+        )}
         <InputSelectAccount
           placeholder="Message"
           onChange={(e) => messageHandler(e)}
@@ -115,7 +149,18 @@ const FundsTransfer = () => {
           placeholder="Amount"
           onChange={(e) => amountHandler(e)}
         />
-        {error && <p>Please enter valid amount</p>}
+        {error && (
+          <p
+            style={{
+              color: "red",
+              fontFamily: "revert-layer",
+              marginLeft: "9%",
+              marginTop: "-10px",
+            }}
+          >
+            Please enter valid amount
+          </p>
+        )}
 
         <PaymentsButtonsDiv>
           <PaymentButtons cancel onClick={cancelHandle}>
