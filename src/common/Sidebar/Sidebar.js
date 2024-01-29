@@ -6,7 +6,7 @@ import {
 } from "../Styles/Styles";
 import { Link } from "react-router-dom";
 const Payment = [
-  { path: "/payments/funds-transfer", name: "Funds Transfer" },
+  { path: "/payments/self-transfer", name: "Self Transfer" },
   { path: "/payments/bill-payment", name: "Bill Payments" },
   { path: "/payments/pay-anyone", name: "Pay Any One" },
   { path: "/payments/history", name: "Payment History" },

@@ -15,6 +15,7 @@ import FirstPage from "./pages/public/FirstPage";
 import BillPaymentsPage from "./pages/private/payments/BillPaymentsPage";
 import PaymentReviewPage from "./pages/private/payments/PaymentReviewPage";
 import PaymentsSuccess from "./components/private/payments/common/PaymentsSuccess";
+import TransactionHistoryPage from "./pages/private/transactionHistory/TransactionHistoryPage";
 
 const App = () => {
   // useEffect(() => {
@@ -45,14 +46,15 @@ const App = () => {
           <Route path="/payments" element={<PaymentsHomePage />}></Route>
 
           <Route
-            path="/payments/funds-transfer"
+            path="/payments/self-transfer"
             element={<FundsTransferPage />}
           />
           <Route
-            path="payments/funds-transfer-review"
+            path="payments/self-transfer-review"
             element={<PaymentReviewPage />}
           />
-          <Route path="payments/success" element={<PaymentsSuccess />} />
+          <Route path="payments/history" element={<TransactionHistoryPage />} />
+          <Route path="payments/status" element={<PaymentsSuccess />} />
           <Route path="/payments/bill-payment" element={<BillPaymentsPage />} />
           <Route path="/payments/pay-anyone" element={""} />
           <Route path="/payments/history" element={""} />
