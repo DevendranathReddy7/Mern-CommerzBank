@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-import { AccountsModalDiv } from "../PaymentScreen/PaymentScreenStyles";
-import EachAccount from "./EachAccount";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SaveAccounts } from "../../storeSetup/actions/accountsAction";
+import { AccountsModalDiv } from "../PaymentScreen/PaymentScreenStyles";
+import EachBiller from "./EachBiller";
+import { saveBillers } from "../../storeSetup/actions/settingsActions";
 
-const AccountsModal = ({ modalOpen, acc, onClick }) => {
+const BillerModal = ({ modalOpen, acc, onClick }) => {
   const [isModalOpen, setModalOpen] = useState(modalOpen);
+  const [billers, setBilers] = useState();
   const currentUserId = useSelector((state) => state.login.currentUser);
   const dispatch = useDispatch();
 
@@ -17,17 +18,16 @@ const AccountsModal = ({ modalOpen, acc, onClick }) => {
   };
 
   useEffect(() => {
-    const getAccounts = async () => {
+    const getBillers = async () => {
       const responseData = await fetch(
-        `http://localhost:5000/accounts/${currentUserId}`
+        `http://localhost:5000/settings/billers/${currentUserId}`
       );
       const response = await responseData.json();
-      dispatch(SaveAccounts({ accounts: response.accounts, currentUserId }));
-      //setAccounts(response.accounts);
+      dispatch(saveBillers({ billers: response.billers, currentUserId }));
+      setBilers(response.billers);
     };
-    getAccounts();
-    //eslint-disable-next-line
-  }, [currentUserId]);
+    getBillers();
+  }, [currentUserId, dispatch]);
 
   const modelHandle = (acc) => {
     setModalOpen((prev) => !prev);
@@ -36,11 +36,11 @@ const AccountsModal = ({ modalOpen, acc, onClick }) => {
   return (
     isModalOpen && (
       <AccountsModalDiv onClick={handleOverlayClick}>
-        {acc?.map((acc) => (
-          <EachAccount acc={acc} onClick={modelHandle} />
+        {billers?.map((acc) => (
+          <EachBiller acc={acc} onClick={modelHandle} />
         ))}
       </AccountsModalDiv>
     )
   );
 };
-export default AccountsModal;
+export default BillerModal;
