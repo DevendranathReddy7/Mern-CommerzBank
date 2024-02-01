@@ -30,7 +30,7 @@ const OpenAnAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const changeHandle = (e) => {
-    if (e.target.value % 100 === 0 && e.target.value > 0) {
+    if (e.target.value % 100 === 0 && e.target.value > 99) {
       setBalError(false);
       setFormData((prev) => ({
         ...prev,
@@ -61,6 +61,12 @@ const OpenAnAccount = () => {
       return setAccError(true);
     }
 
+    if (formData.balance === undefined || formData.balance === "") {
+      return setBalError(true);
+    } else {
+      setBalError(false);
+    }
+
     setIsLoading(true);
     const responseData = await fetch(
       "http://localhost:5000/accounts/open-an-account",
@@ -78,7 +84,7 @@ const OpenAnAccount = () => {
     await responseData.json();
     if (responseData.ok) {
       setIsLoading(false);
-      setSuccess((prev) => true);
+      setSuccess(true);
     }
   };
   return (

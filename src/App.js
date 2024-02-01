@@ -16,6 +16,7 @@ import BillPaymentsPage from "./pages/private/payments/BillPaymentsPage";
 import PaymentReviewPage from "./pages/private/payments/PaymentReviewPage";
 import PaymentsSuccess from "./components/private/payments/common/PaymentsSuccess";
 import TransactionHistoryPage from "./pages/private/transactionHistory/TransactionHistoryPage";
+import ManageBillersPage from "./pages/private/settings/ManageBillersPage";
 
 const App = () => {
   // useEffect(() => {
@@ -53,6 +54,10 @@ const App = () => {
             path="payments/self-transfer-review"
             element={<PaymentReviewPage />}
           />
+          <Route
+            path="payments/bill-payments-review"
+            element={<PaymentReviewPage />}
+          />
           <Route path="payments/history" element={<TransactionHistoryPage />} />
           <Route path="payments/status" element={<PaymentsSuccess />} />
           <Route path="/payments/bill-payment" element={<BillPaymentsPage />} />
@@ -60,9 +65,13 @@ const App = () => {
           <Route path="/payments/history" element={""} />
 
           <Route path="/settings" element={<SettingsHomePage />}>
-            <Route path="manage-billers" element={<FundsTransferPage />} />
             <Route path="manage-payees" element={""} />
           </Route>
+          <Route
+            path="/settings/manage-billers"
+            element={<ManageBillersPage />}
+          />
+
           <Route path="/open-new-account" element={<OpenAnAccount />} />
         </Routes>
       </BrowserRouter>
