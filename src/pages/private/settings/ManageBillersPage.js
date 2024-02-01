@@ -1,17 +1,19 @@
 import React from "react";
 import Navbar, { Footer } from "../../../common/NavBar/Navbar";
-import Sidebar from "../../../common/Sidebar/Sidebar";
 import { SidebySideDiv } from "../../../common/PaymentScreen/PaymentScreenStyles";
+import Sidebar from "../../../common/Sidebar/Sidebar";
+import ManageBillers from "../../../components/private/settings/billers/ManageBillers";
 
-const SettingsHomePage = (props) => {
+const ManageBillersPage = (props) => {
   return (
     <div>
-      <Navbar title="Settings" />
+      <Navbar />
       <SidebySideDiv>
         <Sidebar to="Settings" />
+        <ManageBillers />
       </SidebySideDiv>
       <Footer />
     </div>
   );
 };
-export default SettingsHomePage;
+export default ManageBillersPage;
