@@ -4,12 +4,18 @@ import { Image } from "../../transactionHistory/TransactionHistoryStyles";
 import { ButtonStyles } from "../../../../common/Styles/Styles";
 import { AccountsModalDiv } from "../../../../common/PaymentScreen/PaymentScreenStyles";
 import { ButtonsDiv } from "../../../../pages/private/open account/OpenAnAccountStyles";
+import { useNavigate } from "react-router-dom";
 
 const EachBiller = ({ biller, onClick }) => {
   const [warning, setWarning] = useState(false);
+  const navigate = useNavigate();
 
   const deleteBillerHandler = async () => {
     setWarning(true);
+  };
+
+  const editBillerHandler = (biller) => {
+    navigate("/settings/add-biller");
   };
 
   const deleteBillerConfirm = (id) => {
@@ -57,7 +63,7 @@ const EachBiller = ({ biller, onClick }) => {
         </div>
 
         <div style={{ display: "flex", paddingLeft: "10px" }}>
-          <div>
+          <div onClick={() => editBillerHandler(biller)}>
             <P>Edit</P>
           </div>
           <div onClick={() => deleteBillerHandler(biller._id)}>

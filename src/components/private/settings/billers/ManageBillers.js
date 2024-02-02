@@ -13,6 +13,7 @@ import {
   SearchInput,
 } from "./billerStyles";
 import Loader from "../../../../common/loading/Loader";
+import { useNavigate } from "react-router-dom";
 
 const ManageBillers = () => {
   const currentUser = useSelector((state) => state.login);
@@ -20,7 +21,7 @@ const ManageBillers = () => {
   const [billers, setBillers] = useState();
   const [deleteHandlerTrigger, setDeleteHandlerTrigger] = useState(false);
   const [showDeleteMsg, setShowDeleteMsg] = useState(false);
-
+  const navigate = useNavigate();
   const deleteBillerHandler = useCallback(async (id) => {
     setIsLoading(true);
     const response = await fetch(
@@ -57,6 +58,12 @@ const ManageBillers = () => {
       }, 3000);
     }
   }, [showDeleteMsg]);
+
+  const clickAddBillerHandler = (e) => {
+    e.preventDefault();
+    navigate("/settings/add-biller");
+  };
+
   return (
     <div
       style={{
@@ -81,7 +88,7 @@ const ManageBillers = () => {
         <ChildDiv>
           <SearchInput type="search" placeholder="Search for biller code" />
         </ChildDiv>
-        <form>
+        <form onSubmit={clickAddBillerHandler}>
           <AddBillerBtn>Add Biller</AddBillerBtn>
         </form>
       </ParentDiv>
