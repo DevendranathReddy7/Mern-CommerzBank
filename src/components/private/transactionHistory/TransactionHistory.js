@@ -98,7 +98,6 @@ const TransactionHistory = () => {
     }
     setIsLoading(false);
   };
-  console.log(paymentsHistory);
   return (
     <div
       style={{

@@ -32,7 +32,7 @@ export const Tip = styled.p`
   align-items: center;
   gap: 10px;
   margin-top: -8px;
-  width: 100%;
+  width: ${(prop) => (prop.biller ? "89%" : prop.addBiller ? "79%" : "100%")};
 `;
 export const SearchButton = styled.button`
   display: block;
