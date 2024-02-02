@@ -17,6 +17,7 @@ import PaymentReviewPage from "./pages/private/payments/PaymentReviewPage";
 import PaymentsSuccess from "./components/private/payments/common/PaymentsSuccess";
 import TransactionHistoryPage from "./pages/private/transactionHistory/TransactionHistoryPage";
 import ManageBillersPage from "./pages/private/settings/ManageBillersPage";
+import AddBillerPage from "./pages/private/settings/AddBillerPage";
 
 const App = () => {
   // useEffect(() => {
@@ -71,7 +72,7 @@ const App = () => {
             path="/settings/manage-billers"
             element={<ManageBillersPage />}
           />
-
+          <Route path="/settings/add-biller" element={<AddBillerPage />} />
           <Route path="/open-new-account" element={<OpenAnAccount />} />
         </Routes>
       </BrowserRouter>

@@ -22,7 +22,7 @@ export const Option = styled.option`
 
 export const Label = styled.label`
   border-radius: 3px;
-  margin: 1% 25%;
+  margin: ${(props) => (props.addBiller ? "-1% 9% 3% 9%" : "1% 25%")};
   font-family: "Trebuchet MS", sans-serif;
   color: ${(props) => (props.err === true ? "red" : "black")};
 `;
