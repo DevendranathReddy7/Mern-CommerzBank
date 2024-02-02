@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import FromAccountSelector from "./common/FromAccountSelector";
 import EachAccount from "../../../common/modal/EachAccount";
 import { useDispatch, useSelector } from "react-redux";
-import { payment } from "../../../storeSetup/actions/paymentActions";
+import { ftxPayment } from "../../../storeSetup/actions/paymentActions";
 
 const FundsTransfer = () => {
   const navigate = useNavigate();
@@ -28,17 +28,19 @@ const FundsTransfer = () => {
 
   useEffect(() => {
     dispatch(
-      payment({
+      ftxPayment({
         selectedFromAccount,
         selectedToAccount,
         message,
         amount: amount.amount,
+        type: "ftx",
       })
     );
   }, [dispatch, amount, message, selectedToAccount, selectedFromAccount]);
 
   const accountClickHandler = () => {
     setIsFromCLicked((prev) => !prev);
+    setIsToCLicked(false);
   };
 
   const selectedAccount = (acc) => {
@@ -53,6 +55,7 @@ const FundsTransfer = () => {
 
   const clickedtoAccount = () => {
     setIsToCLicked((prev) => !prev);
+    setIsFromCLicked(false);
   };
 
   const messageHandler = (e) => {

@@ -88,9 +88,9 @@ export const PaymentStatus = styled.h4`
   background-color: ${(props) =>
     props.pmntStatus === "pass" ? "green" : "red"};
   padding: 10px;
-  margin: 0% 0 -10% 1%;
+  margin: 0% 0 -13% 1%;
   border-radius: 3px;
-  width: 100%;
+  width: 240%;
   display: flex;
   align-items: center;
   gap: 2%;

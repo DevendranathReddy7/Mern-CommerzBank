@@ -4,7 +4,14 @@ import { IoIosArrowForward } from "react-icons/io";
 const AccountItem = ({ acc }) => {
   return (
     <DivAccount>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          margin: "-2% 5px -2% 3px",
+          padding: "-2% 5px -2% 3px",
+        }}
+      >
         <Image
           src={
             acc.accountName
@@ -16,21 +23,28 @@ const AccountItem = ({ acc }) => {
           }}
           alt="account"
         />
+        <div style={{ paddingLeft: "10px" }}>
+          <span>
+            <h4 style={{ marginBottom: "-15px" }}>{acc.accountName}</h4>
+            <h4>{acc.accountNumber}</h4>
+          </span>
+        </div>
       </div>
-      <div>
-        <span>
-          <h4 style={{ marginBottom: "-15px" }}>{acc.accountName}</h4>
-          <h4>{acc.accountNumber}</h4>
-        </span>
-      </div>
-      <div>
-        <span>
-          <h4 style={{ marginBottom: "-15px" }}>Balance</h4>
-          <h4>{acc.balance}</h4>
-        </span>
-      </div>
-      <div>
-        <IoIosArrowForward style={{ marginRight: "20px" }} />
+
+      <div
+        style={{ display: "flex", paddingRight: "5%", alignItems: "center" }}
+      >
+        <div>
+          <span>
+            <h4 style={{ marginBottom: "-15px", paddingRight: "20px" }}>
+              Balance
+            </h4>
+            <h4>{acc.balance}</h4>
+          </span>
+        </div>
+        <div>
+          <IoIosArrowForward />
+        </div>
       </div>
     </DivAccount>
   );

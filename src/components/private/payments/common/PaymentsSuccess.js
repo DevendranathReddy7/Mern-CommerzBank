@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx";
 import { TiTick } from "react-icons/ti";
 
-const PaymentsSuccess = (props) => {
+const PaymentsSuccess = () => {
   const pmtDetails = useSelector((state) => state.pmnts);
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,20 +42,42 @@ const PaymentsSuccess = (props) => {
               <tr>
                 <th>Account Name</th>
                 <td>{pmtDetails?.fromAccount?.accountName}</td>
-                <td>{pmtDetails?.toAccount?.accountName}</td>
+                {pmtDetails.type === "ftx" && (
+                  <td>{pmtDetails?.toAccount?.accountName}</td>
+                )}
+                {pmtDetails.type === "bpay" && (
+                  <td>Biller Code: {pmtDetails?.biller?.billerCode}</td>
+                )}
               </tr>
-              <tr>
-                <th>Account Number</th>
-                <td>{pmtDetails?.fromAccount?.accountNumber}</td>
-                <td>{pmtDetails?.toAccount?.accountNumber}</td>
-              </tr>
-              <tr>
-                <th>Message</th>
-                <td>{pmtDetails?.message || "Not provided"}</td>
-              </tr>
+              {pmtDetails.type === "ftx" && (
+                <tr>
+                  <th>Account Number</th>
+                  <td>{pmtDetails?.fromAccount?.accountNumber}</td>
+                  <td>{pmtDetails?.toAccount?.accountNumber}</td>
+                </tr>
+              )}
+
+              {pmtDetails.type === "bpay" && (
+                <tr>
+                  <th>Account Number</th>
+                  <td>{pmtDetails?.fromAccount?.accountNumber}</td>
+                  <td>
+                    <p style={{ margin: "-5% 0 0 0" }}>
+                      Biller Code: {pmtDetails?.biller?.billerCode}
+                    </p>
+                    Reference No: {pmtDetails?.biller?.billerRef}
+                  </td>
+                </tr>
+              )}
+
               <tr>
                 <th>Amount</th>
                 <td>{pmtDetails?.amount}</td>
+              </tr>
+
+              <tr>
+                <th>Message</th>
+                <td>{pmtDetails?.message || "Not provided"}</td>
               </tr>
             </tbody>
           </table>
