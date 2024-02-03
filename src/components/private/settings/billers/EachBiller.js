@@ -15,7 +15,9 @@ const EachBiller = ({ biller, onClick }) => {
   };
 
   const editBillerHandler = (biller) => {
-    navigate("/settings/add-biller");
+    navigate("/settings/add-biller", {
+      state: { editingBiller: biller, isEdit: true },
+    });
   };
 
   const deleteBillerConfirm = (id) => {
