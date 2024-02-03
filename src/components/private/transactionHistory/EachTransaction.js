@@ -13,7 +13,6 @@ const EachTransaction = ({ tran }) => {
   } else if (tran.hasOwnProperty("number")) {
     to = "number";
   }
-
   return (
     <>
       <HistoryList>
