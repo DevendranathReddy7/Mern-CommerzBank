@@ -38,7 +38,7 @@ const BillPayments = () => {
     );
   }, [dispatch, amount, message, selectedBiller, selectedFromAccount]);
   const accountClickHandler = () => {
-    setIsFromCLicked(true);
+    setIsFromCLicked((prev) => !prev);
     setIsBillerClicked(false);
   };
 
@@ -47,7 +47,7 @@ const BillPayments = () => {
   };
 
   const billerClickHandler = () => {
-    setIsBillerClicked(true);
+    setIsBillerClicked((prev) => !prev);
     setIsFromCLicked(false);
   };
 
@@ -80,6 +80,7 @@ const BillPayments = () => {
     setError(false);
     navigate("/payments/bill-payments-review");
   };
+
   return (
     <div style={{ flex: 1 }}>
       <>
@@ -120,6 +121,7 @@ const BillPayments = () => {
           />
         )}
       </>
+
       <InputSelectAccount
         placeholder="Message"
         onChange={(e) => messageHandler(e)}
