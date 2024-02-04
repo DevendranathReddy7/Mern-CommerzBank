@@ -41,6 +41,7 @@ const AddBiller = () => {
       setBillerData(state.editingBiller);
     }
   }, [state]);
+
   const changeHandler = async (field, value) => {
     await validateInput(field, value);
     switch (field) {

@@ -6,7 +6,7 @@ import { saveBillers } from "../../storeSetup/actions/settingsActions";
 import { AddBillerBtn } from "../../components/private/settings/billers/billerStyles";
 import { useNavigate } from "react-router-dom";
 
-const BillerModal = ({ modalOpen, onClick }) => {
+const BillerModal = ({ modalOpen, items, onClick }) => {
   const [isModalOpen, setModalOpen] = useState(modalOpen);
   const [billers, setBilers] = useState();
   const currentUserId = useSelector((state) => state.login.currentUser);
@@ -19,7 +19,6 @@ const BillerModal = ({ modalOpen, onClick }) => {
       setModalOpen(false);
     }
   };
-
   useEffect(() => {
     const getBillers = async () => {
       const responseData = await fetch(
@@ -57,13 +56,13 @@ const BillerModal = ({ modalOpen, onClick }) => {
           </div>
         </form>
         <hr style={{ width: "100%", marginBottom: "4%", marginTop: "-1%" }} />
-        {billers?.length === 0 && (
+        {items?.length === 0 && (
           <p>
             No saved billers available..please add a new one by clicking on Add
             Biller button.
           </p>
         )}
-        {billers?.map((acc) => (
+        {items?.map((acc) => (
           <EachBiller acc={acc} onClick={modelHandle} />
         ))}
       </AccountsModalDiv>
