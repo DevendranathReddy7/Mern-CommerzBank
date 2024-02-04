@@ -18,6 +18,9 @@ import PaymentsSuccess from "./components/private/payments/common/PaymentsSucces
 import TransactionHistoryPage from "./pages/private/transactionHistory/TransactionHistoryPage";
 import ManageBillersPage from "./pages/private/settings/ManageBillersPage";
 import AddBillerPage from "./pages/private/settings/AddBillerPage";
+import PayAnyonePage from "./pages/private/payments/PayAnyonePage";
+import ManagePayeesPage from "./pages/private/settings/ManagePayeesPage";
+import AddPayeesPage from "./pages/private/settings/AddPayeesPage";
 
 const App = () => {
   // useEffect(() => {
@@ -62,17 +65,23 @@ const App = () => {
           <Route path="payments/history" element={<TransactionHistoryPage />} />
           <Route path="payments/status" element={<PaymentsSuccess />} />
           <Route path="/payments/bill-payment" element={<BillPaymentsPage />} />
-          <Route path="/payments/pay-anyone" element={""} />
+          <Route path="/payments/pay-anyone" element={<PayAnyonePage />} />
           <Route path="/payments/history" element={""} />
 
-          <Route path="/settings" element={<SettingsHomePage />}>
-            <Route path="manage-payees" element={""} />
-          </Route>
+          <Route path="/settings" element={<SettingsHomePage />}></Route>
+
           <Route
             path="/settings/manage-billers"
             element={<ManageBillersPage />}
           />
           <Route path="/settings/add-biller" element={<AddBillerPage />} />
+
+          <Route
+            path="/settings/manage-payees"
+            element={<ManagePayeesPage />}
+          />
+          <Route path="/settings/add-payee" element={<AddPayeesPage />} />
+
           <Route path="/open-new-account" element={<OpenAnAccount />} />
         </Routes>
       </BrowserRouter>
