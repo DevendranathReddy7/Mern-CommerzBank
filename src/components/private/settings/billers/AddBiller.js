@@ -24,6 +24,7 @@ const AddBiller = () => {
   const { state } = useLocation();
   const [billerData, setBillerData] = useState(initialState);
   const [success, setSucess] = useState(false);
+  const [nameError, setNameError] = useState(false);
   const [codeErr, setCodeError] = useState(false);
   const [refError, setrefError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +47,7 @@ const AddBiller = () => {
     await validateInput(field, value);
     switch (field) {
       case "billerName":
+        setNameError(false);
         setBillerData((prev) => ({ ...prev, billerName: value }));
         break;
       case "billerCode":
@@ -79,27 +81,43 @@ const AddBiller = () => {
     navigate("/settings/manage-billers");
   };
 
+  const ValidateOnSubmit = () => {
+    if (!billerData.billerName) {
+      setNameError(true);
+    } else if (!billerData.billerCode) {
+      setCodeError(true);
+    } else if (!billerData.billerRef) {
+      setrefError(true);
+    } else {
+      setCodeError(false);
+      setrefError(false);
+      setNameError(false);
+    }
+  };
   const AddBilllerHandle = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        "http://localhost:5000/settings/create-billers",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            billerName: billerData.billerName,
-            billerCode: billerData.billerCode,
-            billerRef: billerData.billerRef,
-            owner: billerData.owner,
-          }),
-        }
-      );
-      await response.json();
-      setSucess(true);
-      setIsLoading(false);
-    } catch (err) {}
-    setBillerData(initialState);
+    ValidateOnSubmit();
+    if (!nameError || !codeErr || !refError) {
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          "http://localhost:5000/settings/create-billers",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              billerName: billerData.billerName,
+              billerCode: billerData.billerCode,
+              billerRef: billerData.billerRef,
+              owner: billerData.owner,
+            }),
+          }
+        );
+        await response.json();
+        setSucess(true);
+        setIsLoading(false);
+      } catch (err) {}
+      setBillerData(initialState);
+    }
   };
 
   const SaveBillerHandle = async () => {
@@ -143,6 +161,11 @@ const AddBiller = () => {
           value={billerData.billerName}
           onChange={(e) => changeHandler("billerName", e.target.value)}
         />
+        {nameError && (
+          <Label addBiller err={nameError}>
+            Enter biller name
+          </Label>
+        )}
         <InputSelectAccount
           placeholder="Biller Code"
           value={billerData.billerCode}
@@ -171,7 +194,7 @@ const AddBiller = () => {
           <PaymentButtons
             onClick={state?.isEdit ? SaveBillerHandle : AddBilllerHandle}
             type="submit"
-            disabled={codeErr || refError}
+            disabled={codeErr || refError || nameError}
           >
             {state?.isEdit ? "Save" : "Add"}
           </PaymentButtons>
