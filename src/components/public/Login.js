@@ -5,7 +5,7 @@ import ErrorModal from "../../common/error/ErrorModal";
 import { login } from "../../storeSetup/actions/loginAction";
 import { useDispatch } from "react-redux";
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({

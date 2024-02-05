@@ -49,7 +49,6 @@ const App = () => {
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/payments" element={<PaymentsHomePage />}></Route>
-
           <Route
             path="/payments/self-transfer"
             element={<FundsTransferPage />}
@@ -62,26 +61,27 @@ const App = () => {
             path="payments/bill-payments-review"
             element={<PaymentReviewPage />}
           />
+          <Route
+            path="/payments/pay-anyone-review"
+            element={<PaymentReviewPage />}
+          />
+
           <Route path="payments/history" element={<TransactionHistoryPage />} />
           <Route path="payments/status" element={<PaymentsSuccess />} />
           <Route path="/payments/bill-payment" element={<BillPaymentsPage />} />
           <Route path="/payments/pay-anyone" element={<PayAnyonePage />} />
           <Route path="/payments/history" element={""} />
-
           <Route path="/settings" element={<SettingsHomePage />}></Route>
-
           <Route
             path="/settings/manage-billers"
             element={<ManageBillersPage />}
           />
           <Route path="/settings/add-biller" element={<AddBillerPage />} />
-
           <Route
             path="/settings/manage-payees"
             element={<ManagePayeesPage />}
           />
           <Route path="/settings/add-payee" element={<AddPayeesPage />} />
-
           <Route path="/open-new-account" element={<OpenAnAccount />} />
         </Routes>
       </BrowserRouter>
