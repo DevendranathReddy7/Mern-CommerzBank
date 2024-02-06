@@ -11,11 +11,12 @@ const EachTransaction = ({ tran }) => {
   } else if (tran.hasOwnProperty("email")) {
     to = "email";
   } else if (tran.hasOwnProperty("number")) {
+    //eslint-disable-next-line
     to = "number";
   }
   return (
     <>
-      <HistoryList>
+      <HistoryList bgC={tran.status}>
         <Image
           src={
             tran.type ? `${process.env.PUBLIC_URL}/pmnts/${tran.type}.png` : ""
@@ -26,30 +27,14 @@ const EachTransaction = ({ tran }) => {
           alt="type"
         />
         <div>{formatDate(tran.paymentDate)}</div>
+        <div>{tran.fromAccount}</div>
         <div>
-          {/* <div>Cheque</div> */}
-          {tran.fromAccount}
+          {tran?.toAccount ||
+            (tran?.biller?.billerName, tran?.biller?.billerCode) ||
+            tran?.email ||
+            tran?.mobileNumber}
+          {tran?.toAccount}-{tran?.ifscCode}
         </div>
-        {to === "toAccount" ? (
-          <div>{tran.toAccount}</div>
-        ) : to === "biller" ? (
-          <div>
-            {tran.biller.billerName},{tran.biller.billerCode}
-          </div>
-        ) : (
-          (to = "email" ? <div>{tran.email}</div> : "")
-        )}
-        {/* <div>
-          {tran?.toAccount || (
-            <>
-              {
-                (tran?.transferMode,
-                tran?.email || tran?.biller?.billerName,
-                tran?.biller?.billerCode)
-              }
-            </>
-          )}
-        </div> */}
         <div>{tran.amount}</div> <div>{tran.message || "NA"}</div>
       </HistoryList>
     </>

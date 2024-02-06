@@ -59,7 +59,8 @@ export const HistoryList = styled.li`
   margin-bottom: 1%;
   border-radius: 5px;
   list-style-type: none;
-  background-color: ${(props) => (props.heading ? "#12141c" : "#e8f9fe")};
+  background-color: ${(props) =>
+    props.heading ? "#12141c" : props.bgC === "failed" ? "#FF7F7F" : "#e8f9fe"};
   color: ${(props) => (props.heading ? "white" : "black")};
   border-color: #e8f9fe;
   padding: 0px 5px;
