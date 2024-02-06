@@ -23,11 +23,11 @@ const AddBiller = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [billerData, setBillerData] = useState(initialState);
-  const [success, setSucess] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [codeErr, setCodeError] = useState(false);
   const [refError, setrefError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSucess] = useState(false);
 
   useEffect(() => {
     if (success) {

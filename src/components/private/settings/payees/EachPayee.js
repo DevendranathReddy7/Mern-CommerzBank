@@ -52,7 +52,7 @@ const EachPayee = ({ payee, onClick }) => {
           style={{ display: "flex", alignItems: "center", margin: "-2% 1px" }}
         >
           <Image
-            src={`${process.env.PUBLIC_URL}/pmnts/payee.png`}
+            src={`${process.env.PUBLIC_URL}/pmnts/${payee.transferType}.png`}
             alt="biller"
           />
           <div style={{ marginLeft: "5px" }}>
@@ -67,7 +67,10 @@ const EachPayee = ({ payee, onClick }) => {
                     : "Email" //payee.transferType
                 }
               </h4>
-              <h4>({payee.email || payee.mobileNumber || payee.toAccount})</h4>
+              <h4>
+                ( {payee.email || payee.mobileNumber} {payee.toAccount}-
+                {payee.ifscCode} )
+              </h4>
             </span>
           </div>
         </div>

@@ -9,9 +9,13 @@ import {
   CheckboxChildDiv,
   CheckboxParentDiv,
   Label,
+  Tip,
 } from "../../transactionHistory/TransactionHistoryStyles";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Loader from "../../../../common/loading/Loader";
+import { TiTick } from "react-icons/ti";
+import { P } from "../billers/billerStyles";
 
 const paymentModes = [
   { id: 1, label: "Account Number" },
@@ -29,11 +33,23 @@ const AddPayee = () => {
     payeeName: "",
     payeeType: "",
     payeeValue: "",
+    ifscCode: "",
     owner: currentUser,
   });
   const navigate = useNavigate();
   const { state } = useLocation();
   const [emailValidation, setemailValidation] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSucess] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setSucess(false);
+      }, 3000);
+    }
+  }, [success]);
 
   useEffect(() => {
     if (state?.editingPayee) {
@@ -51,6 +67,10 @@ const AddPayee = () => {
     setPayeeDetails((prev) => ({ ...prev, payeeName: value }));
   };
 
+  const ifscHandle = (value) => {
+    setPayeeDetails((prev) => ({ ...prev, ifscCode: value }));
+  };
+
   const toAccountHandle = (mode, value) => {
     setemailValidation(false);
     if (mode === "Email") {
@@ -60,7 +80,6 @@ const AddPayee = () => {
         setemailValidation(true);
       }
     }
-    console.log(emailValidation);
     setPayeeDetails((prev) => ({
       ...prev,
       payeeType: mode,
@@ -72,6 +91,8 @@ const AddPayee = () => {
     navigate("/settings/manage-payees");
   };
   const AddPayeeHandle = async () => {
+    setIsLoading(true);
+    setSucess(false);
     const response = await fetch(
       "http://localhost:5000/settings/create-payees",
       {
@@ -81,11 +102,20 @@ const AddPayee = () => {
           payeeName: payeeDetails.payeeName,
           transferType: payeeDetails.payeeType,
           paymentValue: payeeDetails.payeeValue,
+          ifscCode: payeeDetails.ifscCode,
           owner: payeeDetails.owner,
         }),
       }
     );
-
+    setPayeeDetails({
+      payeeName: "",
+      payeeType: "",
+      payeeValue: "",
+      ifscCode: "",
+      owner: currentUser,
+    });
+    setIsLoading(false);
+    setSucess(true);
     await response.json();
   };
 
@@ -97,6 +127,7 @@ const AddPayee = () => {
         payeeName: payeeDetails.payeeName,
         transferType: payeeDetails.payeeType,
         paymentValue: payeeDetails.payeeValue,
+        ifscCode: payeeDetails.ifscCode,
         owner: payeeDetails.owner,
       }),
     });
@@ -104,6 +135,13 @@ const AddPayee = () => {
   };
   return (
     <div style={{ flex: 1 }}>
+      {isLoading && <Loader message="saving details" />}
+      {success && (
+        <Tip addBiller>
+          <TiTick size={"40px"} />
+          <P tip>Payee {state?.isEdit ? "updated" : "added"} successfully!</P>
+        </Tip>
+      )}
       <Label style={{ marginLeft: "9%" }}>Select transfer mode:</Label>
 
       <CheckboxParentDiv>
@@ -121,8 +159,18 @@ const AddPayee = () => {
 
       <InputSelectAccount
         placeholder="Payee name"
+        value={payeeDetails.payeeName}
         onChange={(e) => fromAccountHandle(e.target.value)}
       />
+
+      {selectedRadioButton.label === "Account Number" && (
+        <InputSelectAccount
+          placeholder="Enter IFSC code"
+          value={payeeDetails.ifscCode}
+          onChange={(e) => ifscHandle(e.target.value)}
+        />
+      )}
+
       <InputSelectAccount
         placeholder={selectedRadioButton.label}
         value={payeeDetails.payeeValue}
