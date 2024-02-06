@@ -25,6 +25,8 @@ const FundsTransfer = () => {
 
   const [error, setError] = useState(false);
   const [accountsError, setaccountsError] = useState(false);
+  const [frmAcctError, setFrmAcctError] = useState(false);
+  const [toAcctError, setToAcctError] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -46,6 +48,7 @@ const FundsTransfer = () => {
   const selectedAccount = (acc) => {
     setSelectedFromAccount(acc);
     setaccountsError(false);
+    setFrmAcctError(false);
   };
 
   const toAccount = (acc) => {
@@ -56,14 +59,30 @@ const FundsTransfer = () => {
   const clickedtoAccount = () => {
     setIsToCLicked((prev) => !prev);
     setIsFromCLicked(false);
+    setToAcctError(false);
   };
 
   const messageHandler = (e) => {
     setMessage(e.target.value);
   };
 
-  const amountHandler = (e) => {
-    setAmount((prev) => ({ ...prev, amount: e.target.value }));
+  const amountHandler = (value) => {
+    const regex = /^\d+$/;
+    setError(false);
+    if (regex.test(value)) {
+      if (
+        Number(value) > Number(pmntDetails?.fromAccount?.balance) ||
+        isNaN(value) ||
+        Number(value) < 0
+      ) {
+        setError(true);
+      } else {
+        setAmount((prev) => ({ ...prev, amount: value }));
+        setError(false);
+      }
+    } else {
+      setError(true);
+    }
   };
 
   const cancelHandle = () => {
@@ -72,25 +91,32 @@ const FundsTransfer = () => {
 
   const continueHandle = (e) => {
     e.preventDefault();
-    // dispatch(
-    //   payment({ selectedFromAccount, selectedToAccount, message, amount })
-    // );
 
-    const amnt = pmntDetails?.amount;
-    const availableBalance = pmntDetails?.fromAccount.balance;
+    // const amnt = pmntDetails?.amount;
+    // const availableBalance = pmntDetails?.fromAccount.balance;
     const frmAccount = pmntDetails?.fromAccount?.accountNumber;
     const to_account = pmntDetails?.toAccount?.accountNumber;
 
-    if (frmAccount === to_account) {
+    //  else if (parseInt(amnt) > parseInt(availableBalance)) {
+    //   setError(true);
+    //   return;
+    // }
+
+    if (!selectedFromAccount) {
+      setFrmAcctError(true);
+    } else if (!selectedToAccount) {
+      setToAcctError(true);
+    } else if (frmAccount === to_account) {
       setaccountsError(true);
-      return;
-    } else if (parseInt(amnt) > parseInt(availableBalance)) {
+    } else if (!amount.amount) {
       setError(true);
-      return;
+    } else {
+      setFrmAcctError(false);
+      setToAcctError(false);
+      setError(false);
+      setaccountsError(false);
+      navigate("/payments/self-transfer-review");
     }
-    setError(false);
-    setaccountsError(false);
-    navigate("/payments/self-transfer-review");
   };
 
   return (
@@ -114,6 +140,11 @@ const FundsTransfer = () => {
             }}
           />
         )}
+        {frmAcctError && (
+          <p style={{ margin: "-1% 9% 0.2%", color: "red" }}>
+            Select an account to proceed
+          </p>
+        )}
 
         {/* To Account */}
         {!selectedToAccount && (
@@ -130,6 +161,11 @@ const FundsTransfer = () => {
             acc={selectedToAccount}
             onClick={() => clickedtoAccount(true)}
           />
+        )}
+        {toAcctError && (
+          <p style={{ margin: "-1% 9% 0.2%", color: "red" }}>
+            Select an account to proceed
+          </p>
         )}
         {accountsError && (
           <p
@@ -150,7 +186,7 @@ const FundsTransfer = () => {
         />
         <InputSelectAccount
           placeholder="Amount"
-          onChange={(e) => amountHandler(e)}
+          onChange={(e) => amountHandler(e.target.value)}
         />
         {error && (
           <p
@@ -169,7 +205,12 @@ const FundsTransfer = () => {
           <PaymentButtons cancel onClick={cancelHandle}>
             Cancel
           </PaymentButtons>
-          <PaymentButtons onClick={continueHandle}>Next</PaymentButtons>
+          <PaymentButtons
+            onClick={continueHandle}
+            disabled={error || frmAcctError || toAcctError}
+          >
+            Next
+          </PaymentButtons>
         </PaymentsButtonsDiv>
       </div>
     </>

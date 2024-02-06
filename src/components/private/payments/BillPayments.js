@@ -9,12 +9,14 @@ import EachAccount from "../../../common/modal/EachAccount";
 import BillerSelector from "./common/BillerSelector";
 import EachBiller from "../../../common/modal/EachBiller";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { billPayment } from "../../../storeSetup/actions/paymentActions";
 
 const BillPayments = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const pmntDetails = useSelector((state) => state.pmnts);
+
   const [selectedFromAccount, setSelectedFromAccount] = useState();
   const [isFromClicked, setIsFromCLicked] = useState(false);
 
@@ -25,6 +27,8 @@ const BillPayments = () => {
   const [amount, setAmount] = useState({ amount: 0 });
 
   const [error, setError] = useState(false);
+  const [frmAcctError, setFrmAcctError] = useState(false);
+  const [billerError, setBillerError] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -37,6 +41,7 @@ const BillPayments = () => {
       })
     );
   }, [dispatch, amount, message, selectedBiller, selectedFromAccount]);
+
   const accountClickHandler = () => {
     setIsFromCLicked((prev) => !prev);
     setIsBillerClicked(false);
@@ -44,6 +49,7 @@ const BillPayments = () => {
 
   const selectedAccount = (acc) => {
     setSelectedFromAccount(acc);
+    setFrmAcctError(false);
   };
 
   const billerClickHandler = () => {
@@ -53,14 +59,31 @@ const BillPayments = () => {
 
   const clickedBiller = (acc) => {
     setSelectedBiller(acc);
+    setBillerError(false);
   };
 
   const messageHandler = (e) => {
     setMessage(e.target.value);
   };
 
-  const amountHandler = (e) => {
-    setAmount((prev) => ({ ...prev, amount: e.target.value }));
+  const amountHandler = (value) => {
+    const regex = /^\d+$/;
+    setError(false);
+    if (regex.test(value)) {
+      if (
+        Number(value) > Number(pmntDetails?.fromAccount?.balance) ||
+        isNaN(value) ||
+        Number(value) < 0
+      ) {
+        console.log("in amoutn--->");
+        setError(true);
+      } else {
+        setAmount((prev) => ({ ...prev, amount: value }));
+        setError(false);
+      }
+    } else {
+      setError(true);
+    }
   };
 
   const cancelHandle = () => {
@@ -73,12 +96,18 @@ const BillPayments = () => {
     // const amnt = pmntDetails?.amount;
     // const availableBalance = pmntDetails?.fromAccount.balance;
 
-    // if (parseInt(amnt) > parseInt(availableBalance)) {
-    //   setError(true);
-    //   return;
-    // }
-    setError(false);
-    navigate("/payments/bill-payments-review");
+    if (!selectedFromAccount) {
+      setFrmAcctError(true);
+    } else if (!selectedBiller) {
+      setBillerError(true);
+    } else if (!amount.amount) {
+      setError(true);
+    } else {
+      setFrmAcctError(false);
+      setBillerError(false);
+      setError(false);
+      navigate("/payments/bill-payments-review");
+    }
   };
 
   return (
@@ -101,6 +130,11 @@ const BillPayments = () => {
             }}
           />
         )}
+        {frmAcctError && (
+          <p style={{ margin: "-1% 9% 0.2%", color: "red" }}>
+            Select an account to proceed
+          </p>
+        )}
       </>
       <>
         {!selectedBiller && (
@@ -120,6 +154,11 @@ const BillPayments = () => {
             }}
           />
         )}
+        {billerError && (
+          <p style={{ margin: "-1% 9% 0.2%", color: "red" }}>
+            Select a biller to proceed
+          </p>
+        )}
       </>
 
       <InputSelectAccount
@@ -128,7 +167,7 @@ const BillPayments = () => {
       />
       <InputSelectAccount
         placeholder="Amount"
-        onChange={(e) => amountHandler(e)}
+        onChange={(e) => amountHandler(e.target.value)}
       />
       {error && (
         <p
@@ -147,7 +186,12 @@ const BillPayments = () => {
         <PaymentButtons cancel onClick={cancelHandle}>
           Cancel
         </PaymentButtons>
-        <PaymentButtons onClick={continueHandle}>Next</PaymentButtons>
+        <PaymentButtons
+          onClick={continueHandle}
+          disabled={error || frmAcctError || billerError}
+        >
+          Next
+        </PaymentButtons>
       </PaymentsButtonsDiv>
     </div>
   );
