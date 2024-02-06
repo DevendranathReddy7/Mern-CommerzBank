@@ -19,6 +19,9 @@ const PaymentsReview = () => {
     case "/payments/bill-payments-review":
       endpoint = "bill-payment";
       break;
+    case "/payments/pay-anyone-review":
+      endpoint = "pay-anyone";
+      break;
     default:
       endpoint = "";
   }
@@ -59,7 +62,26 @@ const PaymentsReview = () => {
             }),
           });
           break;
-
+        case "pan":
+          response = await fetch(`http://localhost:5000/payments/${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fromAccount: pmtDetails.fromAccount.accountNumber,
+              transferType: pmtDetails.transferType,
+              amount: pmtDetails.amount,
+              message: pmtDetails.message,
+              payeeName: pmtDetails.payeeName,
+              owner: currentUser.currentUser,
+              type: pmtDetails.type,
+              ...(pmtDetails.transferType === "email"
+                ? { email: pmtDetails.email }
+                : pmtDetails.transferType === "toAccount"
+                ? { toAccount: pmtDetails.toAccount }
+                : { mobileNumber: pmtDetails.mobileNumber }),
+            }),
+          });
+          break;
         default:
       }
 
@@ -67,6 +89,10 @@ const PaymentsReview = () => {
       if (response.ok) {
         navigate("/payments/status", {
           state: { status: "pass", message: "Payment Successful!" },
+        });
+      } else {
+        navigate("/payments/status", {
+          state: { status: "fail", message: "Payment Failed!" },
         });
       }
     } catch (err) {
@@ -99,6 +125,10 @@ const PaymentsReview = () => {
                 {pmtDetails.type === "bpay" && (
                   <td>Biller Name:{pmtDetails?.biller?.billerName}</td>
                 )}
+
+                {pmtDetails.type === "pan" && (
+                  <td>Payee Name:{pmtDetails?.payeeName}</td>
+                )}
               </tr>
               {pmtDetails.type === "ftx" && (
                 <tr>
@@ -117,6 +147,21 @@ const PaymentsReview = () => {
                       Biller Code: {pmtDetails?.biller?.billerCode}
                     </p>
                     Reference No: {pmtDetails?.biller?.billerRef}
+                  </td>
+                </tr>
+              )}
+
+              {pmtDetails.type === "pan" && (
+                <tr>
+                  <th>Account Number</th>
+                  <td>{pmtDetails?.fromAccount?.accountNumber}</td>
+                  <td>
+                    <p style={{ margin: "-5% 0 0% 0" }}>
+                      To: {pmtDetails?.transferType}
+                    </p>
+                    {pmtDetails?.email ||
+                      pmtDetails?.mobileNumber ||
+                      pmtDetails?.toAccount}
                   </td>
                 </tr>
               )}

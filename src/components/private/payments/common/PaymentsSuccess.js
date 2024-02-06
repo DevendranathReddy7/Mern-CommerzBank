@@ -48,6 +48,10 @@ const PaymentsSuccess = () => {
                 {pmtDetails.type === "bpay" && (
                   <td>Biller Code: {pmtDetails?.biller?.billerCode}</td>
                 )}
+
+                {pmtDetails.type === "pan" && (
+                  <td>Payee Name:{pmtDetails?.payeeName}</td>
+                )}
               </tr>
               {pmtDetails.type === "ftx" && (
                 <tr>
@@ -66,6 +70,21 @@ const PaymentsSuccess = () => {
                       Biller Code: {pmtDetails?.biller?.billerCode}
                     </p>
                     Reference No: {pmtDetails?.biller?.billerRef}
+                  </td>
+                </tr>
+              )}
+
+              {pmtDetails.type === "pan" && (
+                <tr>
+                  <th>Account Number</th>
+                  <td>{pmtDetails?.fromAccount?.accountNumber}</td>
+                  <td>
+                    <p style={{ margin: "-5% 0 0% 0" }}>
+                      To: {pmtDetails?.transferType}
+                    </p>
+                    {pmtDetails?.email ||
+                      pmtDetails?.mobileNumber ||
+                      pmtDetails?.toAccount}
                   </td>
                 </tr>
               )}
