@@ -33,7 +33,7 @@ const EachTransaction = ({ tran }) => {
             (tran?.biller?.billerName, tran?.biller?.billerCode) ||
             tran?.email ||
             tran?.mobileNumber}
-          {tran?.toAccount}-{tran?.ifscCode}
+          {"-" && tran?.ifscCode}
         </div>
         <div>{tran.amount}</div> <div>{tran.message || "NA"}</div>
       </HistoryList>

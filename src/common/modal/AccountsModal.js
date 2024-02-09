@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { AccountsModalDiv } from "../PaymentScreen/PaymentScreenStyles";
 import EachAccount from "./EachAccount";
-import { useDispatch, useSelector } from "react-redux";
 import { SaveAccounts } from "../../storeSetup/actions/accountsAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const AccountsModal = ({ modalOpen, acc, onClick }) => {
   const [isModalOpen, setModalOpen] = useState(modalOpen);

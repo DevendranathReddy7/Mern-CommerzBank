@@ -25,10 +25,6 @@ const paymentModes = [
 
 const AddPayee = () => {
   const currentUser = useSelector((state) => state.login.currentUser);
-  const [selectedRadioButton, setSelectedRadioButton] = useState({
-    id: 1,
-    label: "Account Number",
-  });
   const [payeeDetails, setPayeeDetails] = useState({
     payeeName: "",
     payeeType: "",
@@ -38,8 +34,21 @@ const AddPayee = () => {
   });
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [selectedRadioButton, setSelectedRadioButton] = useState({
+    id:
+      state.editingPayee.transferType === "email"
+        ? 2
+        : state.editingPayee.transferType === "mobileNumber"
+        ? 3
+        : 1,
+    label:
+      state.editingPayee.transferType === "email"
+        ? "Email"
+        : state.editingPayee.transferType === "mobileNumber"
+        ? "Mobile Number"
+        : "Account Number",
+  });
   const [emailValidation, setemailValidation] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSucess] = useState(false);
 
@@ -53,7 +62,14 @@ const AddPayee = () => {
 
   useEffect(() => {
     if (state?.editingPayee) {
-      setPayeeDetails(state.editingPayee);
+      setPayeeDetails((prev) => ({
+        ...prev,
+        ...state.editingPayee,
+        payeeValue:
+          state.editingPayee.toAccount ||
+          state.editingPayee.email ||
+          state.editingPayee.mobileNumber,
+      }));
     }
   }, [state]);
 
@@ -120,6 +136,8 @@ const AddPayee = () => {
   };
 
   const SavePayeeDetails = async () => {
+    setIsLoading(true);
+    setSucess(false);
     const response = await fetch("http://localhost:5000/settings/edit-payees", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -131,6 +149,15 @@ const AddPayee = () => {
         owner: payeeDetails.owner,
       }),
     });
+    setPayeeDetails({
+      payeeName: "",
+      payeeType: "",
+      payeeValue: "",
+      ifscCode: "",
+      owner: currentUser,
+    });
+    setIsLoading(false);
+    setSucess(true);
     await response.json();
   };
   return (

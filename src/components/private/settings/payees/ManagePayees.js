@@ -96,16 +96,18 @@ const Managepayees = () => {
       {isLoading ? (
         <Loader message="Fetching your saved payees" />
       ) : payees?.payees?.length === 0 ? (
-        <NoAccountlistStyle>
-          <VscError size={"25%"} color="#FF7F7F" />
-          <span>
-            <p>Nothing here to show</p>
-            <p>
-              Add a payee by clicking on Add Payee button on the top to show
-              your saved payees here.
-            </p>
-          </span>
-        </NoAccountlistStyle>
+        !isLoading && (
+          <NoAccountlistStyle>
+            <VscError size={"25%"} color="#FF7F7F" />
+            <span>
+              <p>Nothing here to show</p>
+              <p>
+                Add a payee by clicking on Add Payee button on the top to show
+                your saved payees here.
+              </p>
+            </span>
+          </NoAccountlistStyle>
+        )
       ) : (
         payees?.payees.map((payee) => (
           <EachPayee payee={payee} onClick={deletePayeeHandler} />

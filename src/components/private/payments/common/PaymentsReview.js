@@ -25,6 +25,7 @@ const PaymentsReview = () => {
     default:
       endpoint = "";
   }
+  console.log(pmtDetails);
   const continueHandler = async () => {
     try {
       setIsLoading(true);
@@ -74,10 +75,13 @@ const PaymentsReview = () => {
               payeeName: pmtDetails.payeeName,
               owner: currentUser.currentUser,
               type: pmtDetails.type,
+              ifscCode: pmtDetails?.ifscCode,
               ...(pmtDetails.transferType === "email"
                 ? { email: pmtDetails.email }
                 : pmtDetails.transferType === "toAccount"
-                ? { toAccount: pmtDetails.toAccount }
+                ? {
+                    toAccount: pmtDetails.toAccount,
+                  }
                 : { mobileNumber: pmtDetails.mobileNumber }),
             }),
           });

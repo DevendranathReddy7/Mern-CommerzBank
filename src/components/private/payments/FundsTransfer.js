@@ -27,7 +27,6 @@ const FundsTransfer = () => {
   const [accountsError, setaccountsError] = useState(false);
   const [frmAcctError, setFrmAcctError] = useState(false);
   const [toAcctError, setToAcctError] = useState(false);
-
   useEffect(() => {
     dispatch(
       ftxPayment({

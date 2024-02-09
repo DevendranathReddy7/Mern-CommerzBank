@@ -116,7 +116,7 @@ const TransactionHistory = () => {
           <CheckboxChildDiv key={pmnt.id}>
             <CheckBox
               type="checkbox"
-              onClick={() => paymentClickHandler(pmnt)}
+              onChange={() => paymentClickHandler(pmnt)}
             />
             <Label>{pmnt.label}</Label>
           </CheckboxChildDiv>
@@ -126,7 +126,7 @@ const TransactionHistory = () => {
         </form>
       </CheckboxParentDiv>
       {isLoading && <Loader message="Fetching your transaction history" />}
-      {paymentsHistory?.length > 0 ? (
+      {!isLoading && paymentsHistory?.length > 0 ? (
         <>
           <HistoryList heading>
             <div>Type</div>
@@ -141,17 +141,19 @@ const TransactionHistory = () => {
           ))}
         </>
       ) : (
-        <NoAccountlistStyle style={{ paddingBottom: "-5%" }}>
-          <VscError size={"25%"} color="#FF7F7F" />
-          <span>
-            <p>Nothing here to show</p>
-            <p>
-              Click the search button by selecting required checkboxe's to get
-              the past transactions.
-            </p>
-            <p>If you're first time user then try posting a payment</p>
-          </span>
-        </NoAccountlistStyle>
+        !isLoading && (
+          <NoAccountlistStyle style={{ paddingBottom: "-5%" }}>
+            <VscError size={"25%"} color="#FF7F7F" />
+            <span>
+              <p>Nothing here to show</p>
+              <p>
+                Click the search button by selecting required checkboxe's to get
+                the past transactions.
+              </p>
+              <p>If you're first time user then try posting a payment</p>
+            </span>
+          </NoAccountlistStyle>
+        )
       )}
     </div>
   );

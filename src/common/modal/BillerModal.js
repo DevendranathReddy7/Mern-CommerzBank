@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+//import { useDispatch, useSelector } from "react-redux";
 import { AccountsModalDiv } from "../PaymentScreen/PaymentScreenStyles";
 import EachBiller from "./EachBiller";
-import { saveBillers } from "../../storeSetup/actions/settingsActions";
+//import { saveBillers } from "../../storeSetup/actions/settingsActions";
 import { AddBillerBtn } from "../../components/private/settings/billers/billerStyles";
 import { useNavigate } from "react-router-dom";
 
 const BillerModal = ({ modalOpen, items, onClick }) => {
   const [isModalOpen, setModalOpen] = useState(modalOpen);
-  const [billers, setBilers] = useState();
-  const currentUserId = useSelector((state) => state.login.currentUser);
-  const dispatch = useDispatch();
+  // const [billers, setBilers] = useState();
+  // const currentUserId = useSelector((state) => state.login.currentUser);
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleOverlayClick = (e) => {
@@ -19,17 +19,17 @@ const BillerModal = ({ modalOpen, items, onClick }) => {
       setModalOpen(false);
     }
   };
-  useEffect(() => {
-    const getBillers = async () => {
-      const responseData = await fetch(
-        `http://localhost:5000/settings/billers/${currentUserId}`
-      );
-      const response = await responseData.json();
-      dispatch(saveBillers({ billers: response.billers, currentUserId }));
-      setBilers(response.billers);
-    };
-    getBillers();
-  }, [currentUserId, dispatch]);
+  // useEffect(() => {
+  //   const getBillers = async () => {
+  //     const responseData = await fetch(
+  //       `http://localhost:5000/settings/billers/${currentUserId}`
+  //     );
+  //     const response = await responseData.json();
+  //     dispatch(saveBillers({ billers: response.billers, currentUserId }));
+  //     setBilers(response.billers);
+  //   };
+  //   getBillers();
+  // }, [currentUserId, dispatch]);
 
   const modelHandle = (acc) => {
     setModalOpen((prev) => !prev);

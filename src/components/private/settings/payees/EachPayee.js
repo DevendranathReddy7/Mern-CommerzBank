@@ -68,8 +68,11 @@ const EachPayee = ({ payee, onClick }) => {
                 }
               </h4>
               <h4>
-                ( {payee.email || payee.mobileNumber} {payee.toAccount}-
-                {payee.ifscCode} )
+                ({payee.email || payee.mobileNumber}
+                {payee.toAccount && payee.ifscCode
+                  ? `${payee.toAccount}- ${payee.ifscCode}`
+                  : ""}
+                )
               </h4>
             </span>
           </div>
