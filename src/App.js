@@ -50,7 +50,7 @@ const App = () => {
           <Route path="/home" element={<HomePage />} />
           <Route path="/payments" element={<PaymentsHomePage />}></Route>
           <Route
-            path="/payments/self-transfer"
+            path="payments/self-transfer"
             element={<FundsTransferPage />}
           />
           <Route
@@ -62,7 +62,7 @@ const App = () => {
             element={<PaymentReviewPage />}
           />
           <Route
-            path="/payments/pay-anyone-review"
+            path="payments/pay-anyone-review"
             element={<PaymentReviewPage />}
           />
 

@@ -44,6 +44,7 @@ const payments = (state = intitalState, action) => {
         payeeName: action.payload?.selectedToPayee?.payeeName,
         type: action.payload.type,
         transferType: action.payload?.selectedToPayee?.transferType,
+        ifscCode: action.payload?.selectedToPayee?.ifscCode,
         email:
           action.payload?.selectedToPayee?.transferType === "email"
             ? action.payload?.selectedToPayee?.email
